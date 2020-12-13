@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Kemet Rotator</title>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../kemet-rotator.js';
+
+    const descriptionMessages = [
+      'Hello! This is a rotator.',
+      'Pass it an array and watch it rotator through the text.',
+      'You can set the rotation speed and transition speed!',
+      'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!'
+    ];
+
+    render(
+      html`
+        <p>
+          <kemet-rotator
+            rotation-speed="5000"
+            transition-speed="2s"
+            .messages=${descriptionMessages}>
+          </kemet-rotator>
+        </p>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
