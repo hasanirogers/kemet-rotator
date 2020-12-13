@@ -8,37 +8,42 @@ export class KemetRotator extends LitElement {
         display: inline-flex;
       }
 
-      .rotator {
+      /* fade effect */
+      :host([effect="fade"]) .rotator {
         display: inline-flex;
         flex-wrap: nowrap;
         flex-direction: row;
       }
 
-      .rotator__slide {
+      :host([effect="fade"]) .rotator__slide {
         width: 100%;
         flex: none;
         opacity: 0;
         box-sizing: border-box;
       }
 
-      .rotator__slide:not(:first-child) {
+      :host([effect="fade"]) .rotator__slide:not(:first-child) {
         margin-left: -100%; /* this is the bulk of the overlay trick */
       }
 
-      .rotator__slide--active {
+      :host([effect="fade"]) .rotator__slide--active {
         opacity: 1;
       }
 
       /* flip effect */
 
       :host([effect="flip"]) .rotator {
-        display: inline-block;
+        display: flex;
         position: relative;
+
+        /* TODO: dynamically get height and width */
 
         perspective: 500;
       }
 
       :host([effect="flip"]) .rotator__slide {
+        display: block;
+        width: auto;
         position: absolute;
         top: -20px;
         left: 0;
@@ -55,12 +60,17 @@ export class KemetRotator extends LitElement {
 
         transform: rotateX(0deg);
       }
+
+      :host([effect="flip"]) .rotator__slide--prev {
+        top: 40px;;
+        transform: rotateX(-90deg);
+      }
     `;
   }
 
   static get properties() {
     return {
-      'index': {
+      'activeSlide': {
         type: Number
       },
       'messages': {
@@ -84,11 +94,15 @@ export class KemetRotator extends LitElement {
   constructor() {
     super();
 
-    this.index = 0;
+    // managed properties
+    this.activeSlide = 0;
     this.messages = [];
     this.effect = 'fade';
     this.rotationSpeed = 3000;
     this.transitionSpeed = '500ms';
+
+    // standard properties
+    this.prevSlide = null;
   }
 
   firstUpdated() {
@@ -108,11 +122,11 @@ export class KemetRotator extends LitElement {
   }
 
   makeMessages() {
-    const styles = `transition: all ${this.transitionSpeed} ease;`;
-
     const messages = this.messages.map((message, index) => {
       return html`
-        <span class="rotator__slide ${this.index === index ? 'rotator__slide--active' : ''}" style="${styles}">
+        <span
+          style="transition: all ${this.transitionSpeed} ease;"
+          class="rotator__slide ${this.activeSlide === index ? 'rotator__slide--active' : ''} ${this.prevSlide === index ? 'rotator__slide--prev' : ''}" >
           ${unsafeHTML(message)}
         </span>
       `;
@@ -122,10 +136,12 @@ export class KemetRotator extends LitElement {
   }
 
   nextSlide() {
-    if (this.index < this.messages.length - 1) {
-      this.index += 1;
+    if (this.activeSlide < this.messages.length - 1) {
+      this.activeSlide += 1;
+      this.prevSlide = this.activeSlide - 1;
     } else {
-      this.index = 0;
+      this.activeSlide = 0;
+      this.prevSlide = this.messages.length -1;
     }
   }
 }

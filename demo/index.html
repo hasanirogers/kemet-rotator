@@ -19,23 +19,28 @@
     import { html, render } from 'lit-html';
     import '../kemet-rotator.js';
 
-    // const descriptionMessages = [
-    //   'Hello! This is a rotator.',
-    //   'Pass it an array and watch it rotator through the text.',
-    //   'You can set the rotation speed and transition speed!',
-    //   'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!'
-    // ];
-
-    const flipMessages = [
-      'This',
-      'message',
-      'FLIPS!'
+    const descriptionMessages = [
+      'Hello! This is a rotator.',
+      'Pass it an array and watch it rotator through the text.',
+      'You can set the rotation speed and transition speed!',
+      'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!'
     ];
+
+    // const flipMessages = [
+    //   'This',
+    //   'message',
+    //   'FLIPS!'
+    // ];
 
     render(
       html`
         <p>
-          <kemet-rotator effect="flip" rotation-speed="5" .messages=${flipMessages}></kemet-rotator>
+          <kemet-rotator
+            effect="flip"
+            rotation-speed="5"
+            transition-speed="2s"
+            .messages=${descriptionMessages}>
+          </kemet-rotator>
         </p>
       `,
       document.querySelector('#demo')
