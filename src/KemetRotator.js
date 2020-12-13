@@ -5,7 +5,7 @@ export class KemetRotator extends LitElement {
   static get styles() {
     return css`
       :host {
-        display: inline-flex;
+        display: flex;
       }
 
       /* fade effect */
@@ -73,6 +73,12 @@ export class KemetRotator extends LitElement {
       'activeSlide': {
         type: Number
       },
+      'width': {
+        type: String
+      },
+      'height': {
+        type: String
+      },
       'messages': {
         type: Array
       },
@@ -96,9 +102,11 @@ export class KemetRotator extends LitElement {
 
     // managed properties
     this.activeSlide = 0;
+    this.width = 'auto';
+    this.height = 'auto';
     this.messages = [];
     this.effect = 'fade';
-    this.rotationSpeed = 3000;
+    this.rotationSpeed = 3;
     this.transitionSpeed = '500ms';
 
     // standard properties
@@ -106,16 +114,17 @@ export class KemetRotator extends LitElement {
   }
 
   firstUpdated() {
-    this.slides = this.shadowRoot.querySelectorAll('.rotator__slide');
-
     if (this.rotationSpeed > 0) {
       setInterval(() => { this.nextSlide() }, this.rotationSpeed * 1000);
     }
+
+    this.setDimensions();
+    window.addEventListener('resize', this.setDimensions.bind(this));
   }
 
   render() {
     return html`
-      <span class="rotator">
+      <span class="rotator" style="width:${this.width}; height:${this.height};">
         ${this.makeMessages()}
       </span>
     `;
@@ -133,6 +142,25 @@ export class KemetRotator extends LitElement {
     });
 
     return messages;
+  }
+
+  setDimensions() {
+    if (this.effect === 'flip') {
+      this.width = `${this.offsetWidth}px`;
+
+      setTimeout(() => {
+        const slides = this.shadowRoot.querySelectorAll('.rotator__slide');
+        let tallest = 0;
+
+        slides.forEach((slide) => {
+          if (slide.offsetHeight > tallest) {
+            tallest = slide.offsetHeight;
+          }
+        });
+
+        this.height = `${tallest}px`;
+      }, 1);
+    }
   }
 
   nextSlide() {

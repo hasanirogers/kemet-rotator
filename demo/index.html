@@ -8,6 +8,7 @@
   <meta charset="utf-8">
   <style>
     body {
+      line-height: 1.5;
       background: #fafafa;
     }
   </style>
@@ -23,14 +24,9 @@
       'Hello! This is a rotator.',
       'Pass it an array and watch it rotator through the text.',
       'You can set the rotation speed and transition speed!',
-      'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!'
+      'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!',
+      'Bacon ipsum dolor amet turducken swine pork loin buffalo capicola prosciutto burgdoggen pig biltong. Brisket bresaola bacon landjaeger strip steak cow pork loin pig tenderloin. Kevin pork chop beef ribs boudin ball tip meatball sausage frankfurter landjaeger shank tri-tip porchetta pancetta. Turducken tongue ground round, pastrami meatloaf picanha shankle t-bone turkey bresaola jerky leberkas fatback. Beef fatback jerky landjaeger sausage frankfurter ham hock cow pork belly.'
     ];
-
-    // const flipMessages = [
-    //   'This',
-    //   'message',
-    //   'FLIPS!'
-    // ];
 
     render(
       html`
@@ -42,6 +38,8 @@
             .messages=${descriptionMessages}>
           </kemet-rotator>
         </p>
+
+        <p>Text below.</p>
       `,
       document.querySelector('#demo')
     );
