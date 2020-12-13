@@ -31,12 +31,9 @@ export class KemetRotator extends LitElement {
       }
 
       /* flip effect */
-
       :host([effect="flip"]) .rotator {
         display: flex;
         position: relative;
-
-        /* TODO: dynamically get height and width */
 
         perspective: 500;
       }
@@ -117,14 +114,19 @@ export class KemetRotator extends LitElement {
     if (this.rotationSpeed > 0) {
       setInterval(() => { this.nextSlide() }, this.rotationSpeed * 1000);
     }
+  }
 
+  updated() {
     this.setDimensions();
     window.addEventListener('resize', this.setDimensions.bind(this));
   }
 
   render() {
+    const setWidth = this.effect === 'flip' ? `width:${this.width};` : '';
+    const setHeight = this.effect === 'flip' ? `height:${this.height};` : '';
+
     return html`
-      <span class="rotator" style="width:${this.width}; height:${this.height};">
+      <span class="rotator" style="${setWidth} ${setHeight}">
         ${this.makeMessages()}
       </span>
     `;

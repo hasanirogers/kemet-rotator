@@ -17,32 +17,50 @@
   <div id="demo"></div>
 
   <script type="module">
+    /* eslint-disable no-use-before-define */
     import { html, render } from 'lit-html';
     import '../kemet-rotator.js';
 
-    const descriptionMessages = [
-      'Hello! This is a rotator.',
-      'Pass it an array and watch it rotator through the text.',
-      'You can set the rotation speed and transition speed!',
-      'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!',
-      'Bacon ipsum dolor amet turducken swine pork loin buffalo capicola prosciutto burgdoggen pig biltong. Brisket bresaola bacon landjaeger strip steak cow pork loin pig tenderloin. Kevin pork chop beef ribs boudin ball tip meatball sausage frankfurter landjaeger shank tri-tip porchetta pancetta. Turducken tongue ground round, pastrami meatloaf picanha shankle t-bone turkey bresaola jerky leberkas fatback. Beef fatback jerky landjaeger sausage frankfurter ham hock cow pork belly.'
-    ];
+    const properties = {
+      effect: 'fade',
+      messages: [
+        'Hello! This is a rotator.',
+        'Pass it an array and watch it rotator through the text.',
+        'You can set the rotation speed and transition speed!',
+        'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!',
+        'Bacon ipsum dolor amet turducken swine pork loin buffalo capicola prosciutto burgdoggen pig biltong. Brisket bresaola bacon landjaeger strip steak cow pork loin pig tenderloin. Kevin pork chop beef ribs boudin ball tip meatball sausage frankfurter landjaeger shank tri-tip porchetta pancetta. Turducken tongue ground round, pastrami meatloaf picanha shankle t-bone turkey bresaola jerky leberkas fatback. Beef fatback jerky landjaeger sausage frankfurter ham hock cow pork belly.'
+      ]
+    };
 
-    render(
-      html`
-        <p>
-          <kemet-rotator
-            effect="flip"
-            rotation-speed="5"
-            transition-speed="2s"
-            .messages=${descriptionMessages}>
-          </kemet-rotator>
-        </p>
+    const demoUI = (props) => html`
+      <form>
+        <label>
+          Effect:
+          <select @blur=${(event) => handleEffect(event)} @change=${(event) => handleEffect(event)}>
+            <option value="fade" selected>Fade</option>
+            <option value="flip">Flip</option>
+          </select>
+        </label>
+      </form>
 
-        <p>Text below.</p>
-      `,
-      document.querySelector('#demo')
-    );
+      <p>
+        <kemet-rotator
+          .effect="${props.effect}"
+          rotation-speed="5"
+          transition-speed="2s"
+          .messages=${props.messages}>
+        </kemet-rotator>
+      </p>
+
+      <hr />
+    `;
+
+    render(demoUI(properties), document.querySelector('#demo'));
+
+    const handleEffect = (event) => {
+      properties.effect = event.target.value;
+      render(demoUI(properties), document.querySelector('#demo'));
+    }
   </script>
 </body>
 </html>
