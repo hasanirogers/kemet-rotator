@@ -3,37 +3,40 @@ import { html, fixture, expect } from '@open-wc/testing';
 import '../kemet-rotator.js';
 
 describe('KemetRotator', () => {
-  it('has a default title "Hey there" and counter 5', async () => {
-    const el = await fixture(html`
+  it('has a the correct defaults', async () => {
+    const element = await fixture(html`
       <kemet-rotator></kemet-rotator>
     `);
 
-    expect(el.title).to.equal('Hey there');
-    expect(el.counter).to.equal(5);
+    expect(element.activeSlide).to.equal(0);
+    expect(element.width).to.equal('auto');
+    expect(element.height).to.equal('auto');
+    expect(element.messages.length).to.equal(0);
+    expect(element.effect).to.equal('fade');
+    expect(element.rotationSpeed).to.equal(3);
   });
 
-  it('increases the counter on button click', async () => {
-    const el = await fixture(html`
-      <kemet-rotator></kemet-rotator>
-    `);
-    el.shadowRoot.querySelector('button').click();
+  it('calls the next slide properly', async () => {
+    const messages = [
+      'some',
+      'messages',
+      'here',
+    ];
 
-    expect(el.counter).to.equal(6);
-  });
-
-  it('can override the title via attribute', async () => {
-    const el = await fixture(html`
-      <kemet-rotator title="attribute title"></kemet-rotator>
+    const element = await fixture(html`
+      <kemet-rotator effect="flip" .messages=${messages}></kemet-rotator>
     `);
 
-    expect(el.title).to.equal('attribute title');
+    element.nextSlide();
+
+    expect(element.activeSlide).to.equal(1);
   });
 
   it('passes the a11y audit', async () => {
-    const el = await fixture(html`
+    const element = await fixture(html`
       <kemet-rotator></kemet-rotator>
     `);
 
-    await expect(el).shadowDom.to.be.accessible();
+    await expect(element).shadowDom.to.be.accessible();
   });
 });
