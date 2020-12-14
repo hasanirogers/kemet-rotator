@@ -11,6 +11,12 @@
       line-height: 1.5;
       background: #fafafa;
     }
+
+    select,
+    input {
+      max-width: 72px;
+      padding: 0.25rem 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -25,12 +31,15 @@
       effect: 'fade',
       messages: [
         'Hello! This is a rotator.',
-        'Pass it an array and watch it rotator through the text.',
-        'You can set the rotation speed and transition speed!',
+        'Pass it an array and watch it rotate through the text.',
+        'Set the rotation speed to 0 to stop the rotator.',
         'You can pass it html like <strong><a href="http://kemet.online/rotator">this link</a></strong>!',
         'Bacon ipsum dolor amet turducken swine pork loin buffalo capicola prosciutto burgdoggen pig biltong. Brisket bresaola bacon landjaeger strip steak cow pork loin pig tenderloin. Kevin pork chop beef ribs boudin ball tip meatball sausage frankfurter landjaeger shank tri-tip porchetta pancetta. Turducken tongue ground round, pastrami meatloaf picanha shankle t-bone turkey bresaola jerky leberkas fatback. Beef fatback jerky landjaeger sausage frankfurter ham hock cow pork belly.'
-      ]
+      ],
+      rotationSpeed: 5
     };
+
+    const demoElement = document.getElementById('demo');
 
     const demoUI = (props) => html`
       <form>
@@ -41,13 +50,20 @@
             <option value="flip">Flip</option>
           </select>
         </label>
+
+        &nbsp;&nbsp;
+
+        <label>
+          Rotation Speed (in seconds):
+          <input type="number" @change=${(event) => handleRotationSpeed(event)} .value=${props.rotationSpeed} />
       </form>
+
+      <br /><br /><hr />
 
       <p>
         <kemet-rotator
           .effect="${props.effect}"
-          rotation-speed="5"
-          transition-speed="2s"
+          .rotationSpeed="${props.rotationSpeed}"
           .messages=${props.messages}>
         </kemet-rotator>
       </p>
@@ -55,11 +71,16 @@
       <hr />
     `;
 
-    render(demoUI(properties), document.querySelector('#demo'));
+    render(demoUI(properties), demoElement);
 
     const handleEffect = (event) => {
       properties.effect = event.target.value;
-      render(demoUI(properties), document.querySelector('#demo'));
+      render(demoUI(properties), demoElement);
+    }
+
+    const handleRotationSpeed = (event) => {
+      properties.rotationSpeed = event.target.value;
+      render(demoUI(properties), demoElement);
     }
   </script>
 </body>

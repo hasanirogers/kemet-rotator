@@ -20,6 +20,7 @@ export class KemetRotator extends LitElement {
         flex: none;
         opacity: 0;
         box-sizing: border-box;
+        transition: all var(--kemet-rotator-transition-speed, 500ms) ease;
       }
 
       :host([effect="fade"]) .rotator__slide:not(:first-child) {
@@ -49,6 +50,7 @@ export class KemetRotator extends LitElement {
 
         transform: rotateX(90deg);
         transform-origin: 0% 0%;
+        transition: all var(--kemet-rotator-transition-speed, 500ms) ease;
       }
 
       :host([effect="flip"]) .rotator__slide--active {
@@ -86,10 +88,6 @@ export class KemetRotator extends LitElement {
       'rotationSpeed': {
         type: Number,
         attribute: 'rotation-speed'
-      },
-      'transitionSpeed': {
-        type: String,
-        attribute: 'transition-speed'
       }
     };
   }
@@ -104,21 +102,20 @@ export class KemetRotator extends LitElement {
     this.messages = [];
     this.effect = 'fade';
     this.rotationSpeed = 3;
-    this.transitionSpeed = '500ms';
 
     // standard properties
     this.prevSlide = null;
   }
 
-  firstUpdated() {
-    if (this.rotationSpeed > 0) {
-      setInterval(() => { this.nextSlide() }, this.rotationSpeed * 1000);
-    }
-  }
-
   updated() {
     this.setDimensions();
     window.addEventListener('resize', this.setDimensions.bind(this));
+
+    setTimeout(() => {
+      if (this.rotationSpeed > 0) {
+        this.nextSlide();
+      }
+    }, this.rotationSpeed * 1000);
   }
 
   render() {
@@ -134,10 +131,11 @@ export class KemetRotator extends LitElement {
 
   makeMessages() {
     const messages = this.messages.map((message, index) => {
+      const setActiveClass = this.activeSlide === index ? 'rotator__slide--active' : '';
+      const setPrevClass = this.prevSlide === index ? 'rotator__slide--prev' : '';
+
       return html`
-        <span
-          style="transition: all ${this.transitionSpeed} ease;"
-          class="rotator__slide ${this.activeSlide === index ? 'rotator__slide--active' : ''} ${this.prevSlide === index ? 'rotator__slide--prev' : ''}" >
+        <span class="rotator__slide ${setActiveClass} ${setPrevClass}">
           ${unsafeHTML(message)}
         </span>
       `;
