@@ -36,7 +36,7 @@ import '@kemet/kemet-rotator/kemet-rotator.js';
 ## Previews
 
 <Preview withToolbar>
-  <Story name="Standard">
+  <Story name="Fading Text">
     {html`
       <kemet-rotator messages='["my", "text", "here"]'></kemet-rotator>
     `}
@@ -44,12 +44,12 @@ import '@kemet/kemet-rotator/kemet-rotator.js';
 </Preview>
 
 <Preview withToolbar>
-  <Story name="Faster Flipping Text">
+  <Story name="Flipping HTML">
     {html`
       <kemet-rotator
         effect="flip"
         rotation-speed="5"
-        messages='["my", "text", "here"]'>
+        messages='["<strong>bold</strong>", "<em>emphasis</em>", "<small>small</small>"]'>
       </kemet-rotator>
     `}
   </Story>
