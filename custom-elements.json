@@ -3,28 +3,59 @@
   "tags": [
     {
       "name": "kemet-rotator",
-      "description": "A component with a title and an action counter",
+      "description": "A component that rotates through an array of text.",
       "properties": [
         {
-          "name": "title",
-          "type": "String",
-          "description": "The title of your component",
-          "default": "Hey there"
+          "name": "activeSlide",
+          "type": "Number",
+          "description": "The index number for the current slide.",
+          "default": 0
         },
         {
-          "name": "counter",
+          "name": "width",
+          "type": "String",
+          "description": "The width of the rotator block.",
+          "default": "auto"
+        },
+        {
+          "name": "height",
+          "type": "String",
+          "description": "The height of the rotator block.",
+          "default": "auto"
+        },
+        {
+          "name": "messages",
+          "type": "Array",
+          "description": "Text in the rotator. Supports HTML.",
+          "default": []
+        },
+        {
+          "name": "effect",
+          "type": "String",
+          "description": "The transition effect type.",
+          "default": "fade"
+        },
+        {
+          "name": "rotationSpeed",
           "type": "Number",
-          "description": "An action counter",
-          "default": 0
+          "description": "How fast, in seconds, each slide lasts. Stop the rotator with 0.",
+          "default": 3
+        }
+      ],
+      "methods": [
+        {
+          "name": "nextSlide",
+          "description": "Calls the slide."
         }
       ],
       "events": [],
       "slots": [],
       "cssProperties": [
         {
-          "name": "--kemet-rotator-text-color",
-          "description": "Main Text Color",
-          "type": "Color"
+          "name": "--kemet-rotator-transition-speed",
+          "description": "How long, in css time units, the transition effect lasts.",
+          "type": "Time Unit",
+          "default": "500ms"
         }
       ]
     }

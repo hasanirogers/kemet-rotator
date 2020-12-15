@@ -73,10 +73,10 @@ export class KemetRotator extends LitElement {
         type: Number
       },
       'width': {
-        type: String
+        type: String,
       },
       'height': {
-        type: String
+        type: String,
       },
       'messages': {
         type: Array
@@ -97,25 +97,34 @@ export class KemetRotator extends LitElement {
 
     // managed properties
     this.activeSlide = 0;
-    this.width = 'auto';
-    this.height = 'auto';
     this.messages = [];
     this.effect = 'fade';
     this.rotationSpeed = 3;
+    this.width = 'auto';
+    this.height = 'auto';
 
     // standard properties
     this.prevSlide = null;
   }
 
-  updated() {
-    this.setDimensions();
+  firstUpdated() {
     window.addEventListener('resize', this.setDimensions.bind(this));
+  }
 
-    setTimeout(() => {
-      if (this.rotationSpeed > 0) {
-        this.nextSlide();
-      }
-    }, this.rotationSpeed * 1000);
+  updated(changed) {
+    const widthHasChanged = !!changed.get('width');
+    const heightHasChanged = !!changed.get('height');
+
+    this.setDimensions();
+
+    // only trigger slide updates when width and height has not changed
+    if (!widthHasChanged && !heightHasChanged) {
+      setTimeout(() => {
+        if (this.rotationSpeed > 0) {
+          this.nextSlide();
+        }
+      }, this.rotationSpeed * 1000);
+    }
   }
 
   render() {
@@ -148,7 +157,7 @@ export class KemetRotator extends LitElement {
     if (this.effect === 'flip') {
       this.width = `${this.offsetWidth}px`;
 
-      setTimeout(() => {
+      // setTimeout(() => {
         const slides = this.shadowRoot.querySelectorAll('.rotator__slide');
         let tallest = 0;
 
@@ -159,7 +168,7 @@ export class KemetRotator extends LitElement {
         });
 
         this.height = `${tallest}px`;
-      }, 1);
+      // }, 0);
     }
   }
 
