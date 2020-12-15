@@ -157,18 +157,16 @@ export class KemetRotator extends LitElement {
     if (this.effect === 'flip') {
       this.width = `${this.offsetWidth}px`;
 
-      // setTimeout(() => {
-        const slides = this.shadowRoot.querySelectorAll('.rotator__slide');
-        let tallest = 0;
+      const slides = this.shadowRoot.querySelectorAll('.rotator__slide');
+      let tallest = 0;
 
-        slides.forEach((slide) => {
-          if (slide.offsetHeight > tallest) {
-            tallest = slide.offsetHeight;
-          }
-        });
+      slides.forEach((slide) => {
+        if (slide.offsetHeight > tallest) {
+          tallest = slide.offsetHeight;
+        }
+      });
 
-        this.height = `${tallest}px`;
-      // }, 0);
+      this.height = `${tallest}px`;
     }
   }
 
